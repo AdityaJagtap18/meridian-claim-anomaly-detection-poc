@@ -1,0 +1,39 @@
+{
+  "name": "meridian_claim_anomaly",
+  "purpose": "Rank motor claims by anomaly risk to prioritise HUMAN review",
+  "not_for": "Automated approval or rejection of any claim. A person decides.",
+  "features": [
+    "declared_income",
+    "estimate_vs_limit_pct",
+    "days_since_incident",
+    "application_velocity_30d",
+    "device_fingerprint_reuse",
+    "bank_account_reuse_count",
+    "garage_claim_share_90d",
+    "policy_age_days"
+  ],
+  "training": {
+    "total_cases": 4000,
+    "fraud_rate": 0.018,
+    "train_size": 2800,
+    "test_size": 1200,
+    "fraud_in_test": 22
+  },
+  "metrics": {
+    "roc_auc": 0.761,
+    "pr_auc": 0.357,
+    "baseline_pr": 0.0183
+  },
+  "thresholds": {
+    "low_max": 30,
+    "high_min": 70,
+    "chosen_by": "TODO - name the operations manager who agreed these"
+  },
+  "known_limitations": [
+    "SELECTION BIAS: labels come only from fraud that was DETECTED. Fraud never found is invisible to this model, by construction, and more data of the same kind will not fix it.",
+    "Only 22 fraud cases in the test set - metrics are noisy.",
+    "Trained on synthetic data. Re-measure on real claims before production.",
+    "garage_claim_share_90d may act as a proxy for community in a small town. Review per geography."
+  ],
+  "reviewed_by": "TODO - name and date"
+}

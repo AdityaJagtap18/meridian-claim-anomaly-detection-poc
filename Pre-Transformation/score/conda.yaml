@@ -1,0 +1,20 @@
+# conda.yaml - custom environment for meridian-claim-anomaly
+#
+# The curated "minimal" environments in the portal do NOT include
+# scikit-learn. Deploying against one builds fine and then fails at container
+# start with ModuleNotFoundError. This file exists to avoid that.
+#
+# Pin scikit-learn to the version that PICKLED the model. A mismatch either
+# warns on unpickle or fails outright, and the error message rarely says so.
+
+name: meridian-anomaly-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - scikit-learn==1.8.0        # must match the training environment
+      - joblib==1.5.3
+      - numpy
+      - azureml-inference-server-http
